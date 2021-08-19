@@ -284,63 +284,63 @@ int compTicTacToe()
 			{
 				if (choiceAI == 1 && gridSquare[1] == '1')
 				{
-					if (gridSquare[1] == mark)
+					if (gridSquare[1] == 'X' || gridSquare[1] == 'O')
 						choiceAI++, player--;
 					else gridSquare[1] = mark, placed = 1;
 				}
 					
 				else if (choiceAI == 2 && gridSquare[2] == '2')
 				{
-					if (gridSquare[2] == mark)
+					if (gridSquare[2] == 'X' || gridSquare[2] == 'O')
 						choiceAI++, player--;
 					else gridSquare[2] = mark, placed = 1;
 				}
 
 				else if (choiceAI == 3 && gridSquare[3] == '3')
 				{
-					if (gridSquare[3] == mark)
+					if (gridSquare[3] == 'X' || gridSquare[3] == 'O')
 						choiceAI++, player--;
 					else gridSquare[3] = mark, placed = 1;
 				}
 
 				else if (choiceAI == 4 && gridSquare[4] == '4')
 				{
-					if (gridSquare[4] == mark)
+					if (gridSquare[4] == 'X' || gridSquare[4] == 'O')
 						choiceAI++, player--;
 					else gridSquare[4] = mark, placed = 1;
 				}
 
 				else if (choiceAI == 5 && gridSquare[5] == '5')
 				{
-					if (gridSquare[5] == mark)
+					if (gridSquare[5] == 'X' || gridSquare[5] == 'O')
 						choiceAI++, player--;
 					else gridSquare[5] = mark, placed = 1;
 				}
 
 				else if (choiceAI == 6 && gridSquare[6] == '6')
 				{
-					if (gridSquare[6] == mark)
+					if (gridSquare[6] == 'X' || gridSquare[6] == 'O')
 						choiceAI++, player--;
 					else gridSquare[6] = mark, placed = 1;
 				}
 
 				else if (choiceAI == 7 && gridSquare[7] == '7')
 				{
-					if (gridSquare[7] == mark)
+					if (gridSquare[7] == 'X' || gridSquare[7] == 'O')
 						choiceAI++, player--;
 					else gridSquare[7] = mark, placed = 1;
 				}
 
 				else if (choiceAI == 8 && gridSquare[8] == '8')
 				{
-					if (gridSquare[8] == mark)
+					if (gridSquare[8] == 'X' || gridSquare[8] == 'O')
 						choiceAI++, player--;
 					else gridSquare[8] = mark, placed = 1;
 				}
 
 				else if (choiceAI == 9 && gridSquare[9] == '9')
 				{
-					if (gridSquare[9] == mark)
+					if (gridSquare[9] == 'X' || gridSquare[9] == 'O')
 						choiceAI--, player--;
 					else gridSquare[9] = mark, placed = 1;
 				}
