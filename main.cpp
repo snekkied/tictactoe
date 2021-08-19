@@ -6,8 +6,8 @@ using namespace std;
 
 // Menu options - +1 automatically added to each unspecified option
 enum MenuChoice {
-	PVC = 1,
-	PVP,
+	PVP = 1,
+	PVC,
 	QUIT,
 	NO_CHOICE = -1
 };
@@ -18,14 +18,12 @@ int displayMenu();
 int checkWin();
 void board();
 int playTicTacToe();
+int compTicTacToe();
 void displayQuit();
 
 int main()
 {
 	int choice = NO_CHOICE;
-
-	//seed random.range
-	srand(time(0));
 
 	do {
 		// Display MENU & get input (1/2/3)
@@ -171,14 +169,92 @@ int playTicTacToe()
 	return 0;
 }
 
-int compChoice()
+int compChoice(int choice)
 {
+	//horizontal
+	if (gridSquare[1] == gridSquare[2])
+		choice = 3;
 
+	else if (gridSquare[2] == gridSquare[3])
+		choice = 1;
+
+	else if (gridSquare[4] == gridSquare[5])
+		choice = 6;
+
+	else if (gridSquare[5] == gridSquare[6])
+		choice = 4;
+
+	else if (gridSquare[7] == gridSquare[8])
+		choice = 9;
+
+	else if (gridSquare[8] == gridSquare[9])
+		choice = 7;
+
+	else if (gridSquare[1] == gridSquare[3])
+		choice = 2;
+
+	else if (gridSquare[4] == gridSquare[6])
+		choice = 5;
+
+	else if (gridSquare[7] == gridSquare[9])
+		choice = 8;
+
+	//vertical
+	else if (gridSquare[1] == gridSquare[4])
+		choice = 7;
+
+	else if (gridSquare[4] == gridSquare[7])
+		choice = 1;
+
+	else if (gridSquare[2] == gridSquare[5])
+		choice = 8;
+
+	else if (gridSquare[5] == gridSquare[8])
+		choice = 2;
+
+	else if (gridSquare[3] == gridSquare[6])
+		choice = 9;
+
+	else if (gridSquare[6] == gridSquare[9])
+		choice = 3;
+
+	else if (gridSquare[1] == gridSquare[7])
+		choice = 4;
+
+	else if (gridSquare[2] == gridSquare[8])
+		choice = 5;
+
+	else if (gridSquare[3] == gridSquare[9])
+		choice = 6;
+
+	//diagonal
+	else if (gridSquare[1] == gridSquare[5])
+		choice = 9;
+
+	else if (gridSquare[5] == gridSquare[9])
+		choice = 1;
+
+	else if (gridSquare[3] == gridSquare[5])
+		choice = 7;
+
+	else if (gridSquare[5] == gridSquare[7])
+		choice = 3;
+
+	else if (gridSquare[1] == gridSquare[9])
+		choice = 5;
+
+	else if (gridSquare[3] == gridSquare[7])
+		choice = 5;
+
+	//centre
+	else choice = 5;
+
+	return choice;
 }
 
 int compTicTacToe()
 {
-	int player = 1, i = 0, choice;
+	int player = 1, i = 0, choice{}, choiceAI{ compChoice(choice) };
 
 	char mark; //mark the player's position on the board
 
@@ -194,7 +270,8 @@ int compTicTacToe()
 		{
 			cout << "    It's Player " << player << "'s turn! Press enter to continue.";
 
-			choice = compChoice();
+			choiceAI = compChoice(choice);
+			
 			mark = 'O';
 
 			int turn = 1;
@@ -202,34 +279,36 @@ int compTicTacToe()
 
 			while (placed == 0)
 			{
-				if (choice == 1 && gridSquare[1] == '1')
+				if (choiceAI == 1 && gridSquare[1] == '1')
 					gridSquare[1] = mark, placed = 1;
 
-				else if (choice == 2 && gridSquare[2] == '2')
+				else if (choiceAI == 2 && gridSquare[2] == '2')
 					gridSquare[2] = mark, placed = 1;
 
-				else if (choice == 3 && gridSquare[3] == '3')
+				else if (choiceAI == 3 && gridSquare[3] == '3')
 					gridSquare[3] = mark, placed = 1;
 
-				else if (choice == 4 && gridSquare[4] == '4')
+				else if (choiceAI == 4 && gridSquare[4] == '4')
 					gridSquare[4] = mark, placed = 1;
 
-				else if (choice == 5 && gridSquare[5] == '5')
+				else if (choiceAI == 5 && gridSquare[5] == '5')
 					gridSquare[5] = mark, placed = 1;
 
-				else if (choice == 6 && gridSquare[6] == '6')
+				else if (choiceAI == 6 && gridSquare[6] == '6')
 					gridSquare[6] = mark, placed = 1;
 
-				else if (choice == 7 && gridSquare[7] == '7')
+				else if (choiceAI == 7 && gridSquare[7] == '7')
 					gridSquare[7] = mark, placed = 1;
 
-				else if (choice == 8 && gridSquare[8] == '8')
+				else if (choiceAI == 8 && gridSquare[8] == '8')
 					gridSquare[8] = mark, placed = 1;
 
-				else if (choice == 9 && gridSquare[9] == '9')
+				else if (choiceAI == 9 && gridSquare[9] == '9')
 					gridSquare[9] = mark, placed = 1;
 
-				else choice = compChoice();
+				else if (placed == 1)
+					choiceAI - 1,
+					player--;
 			}
 
 			i = checkWin();
@@ -237,6 +316,7 @@ int compTicTacToe()
 
 			board();
 		}
+
 		else if (player == 1)
 		{
 			cout << "    Player " << player << ", enter a number: ";
