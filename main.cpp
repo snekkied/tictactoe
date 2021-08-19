@@ -13,6 +13,7 @@ enum MenuChoice {
 };
 
 char gridSquare[10] = { 'o','1','2','3','4','5','6','7','8','9' }; //grid contents
+char mark;
 
 int displayMenu();
 int checkWin();
@@ -199,6 +200,7 @@ int compChoice(int choice)
 	else if (gridSquare[7] == gridSquare[9])
 		choice = 8;
 
+
 	//vertical
 	else if (gridSquare[1] == gridSquare[4])
 		choice = 7;
@@ -226,6 +228,7 @@ int compChoice(int choice)
 
 	else if (gridSquare[3] == gridSquare[9])
 		choice = 6;
+
 
 	//diagonal
 	else if (gridSquare[1] == gridSquare[5])
@@ -280,35 +283,67 @@ int compTicTacToe()
 			while (placed == 0)
 			{
 				if (choiceAI == 1 && gridSquare[1] == '1')
-					gridSquare[1] = mark, placed = 1;
-
+				{
+					if (gridSquare[1] == mark)
+						choiceAI++, player--;
+					else gridSquare[1] = mark, placed = 1;
+				}
+					
 				else if (choiceAI == 2 && gridSquare[2] == '2')
-					gridSquare[2] = mark, placed = 1;
+				{
+					if (gridSquare[2] == mark)
+						choiceAI++, player--;
+					else gridSquare[2] = mark, placed = 1;
+				}
 
 				else if (choiceAI == 3 && gridSquare[3] == '3')
-					gridSquare[3] = mark, placed = 1;
+				{
+					if (gridSquare[3] == mark)
+						choiceAI++, player--;
+					else gridSquare[3] = mark, placed = 1;
+				}
 
 				else if (choiceAI == 4 && gridSquare[4] == '4')
-					gridSquare[4] = mark, placed = 1;
+				{
+					if (gridSquare[4] == mark)
+						choiceAI++, player--;
+					else gridSquare[4] = mark, placed = 1;
+				}
 
 				else if (choiceAI == 5 && gridSquare[5] == '5')
-					gridSquare[5] = mark, placed = 1;
+				{
+					if (gridSquare[5] == mark)
+						choiceAI++, player--;
+					else gridSquare[5] = mark, placed = 1;
+				}
 
 				else if (choiceAI == 6 && gridSquare[6] == '6')
-					gridSquare[6] = mark, placed = 1;
+				{
+					if (gridSquare[6] == mark)
+						choiceAI++, player--;
+					else gridSquare[6] = mark, placed = 1;
+				}
 
 				else if (choiceAI == 7 && gridSquare[7] == '7')
-					gridSquare[7] = mark, placed = 1;
+				{
+					if (gridSquare[7] == mark)
+						choiceAI++, player--;
+					else gridSquare[7] = mark, placed = 1;
+				}
 
 				else if (choiceAI == 8 && gridSquare[8] == '8')
-					gridSquare[8] = mark, placed = 1;
+				{
+					if (gridSquare[8] == mark)
+						choiceAI++, player--;
+					else gridSquare[8] = mark, placed = 1;
+				}
 
 				else if (choiceAI == 9 && gridSquare[9] == '9')
-					gridSquare[9] = mark, placed = 1;
-
-				else if (placed == 1)
-					choiceAI - 1,
-					player--;
+				{
+					if (gridSquare[9] == mark)
+						choiceAI--, player--;
+					else gridSquare[9] = mark, placed = 1;
+				}
 			}
 
 			i = checkWin();
