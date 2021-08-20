@@ -14,6 +14,13 @@ enum MenuChoice {
 
 char gridSquare[10] = { 'o','1','2','3','4','5','6','7','8','9' }; //grid contents
 
+char board[3][3] =
+{
+	{ gridSquare[1], gridSquare[2], gridSquare[3] },
+	{ gridSquare[4], gridSquare[5], gridSquare[6] },
+	{ gridSquare[7], gridSquare[8], gridSquare[9] }
+};
+
 int displayMenu();
 int checkWin();
 void boardGS();
@@ -117,31 +124,31 @@ int playTicTacToe()
 		mark = (player == 1) ? 'X' : 'O';
 
 		if (choice == 1 && gridSquare[1] == '1')
-			gridSquare[1] = mark;
+			board[0][0] = mark;
 
 		else if (choice == 2 && gridSquare[2] == '2')
-			gridSquare[2] = mark;
+			board[0][1] = mark;
 
 		else if (choice == 3 && gridSquare[3] == '3')
-			gridSquare[3] = mark;
+			board[0][2] = mark;
 
 		else if (choice == 4 && gridSquare[4] == '4')
-			gridSquare[4] = mark;
+			board[1][0] = mark;
 
 		else if (choice == 5 && gridSquare[5] == '5')
-			gridSquare[5] = mark;
+			board[1][1] = mark;
 
 		else if (choice == 6 && gridSquare[6] == '6')
-			gridSquare[6] = mark;
+			board[1][2] = mark;
 
 		else if (choice == 7 && gridSquare[7] == '7')
-			gridSquare[7] = mark;
+			board[2][0] = mark;
 
 		else if (choice == 8 && gridSquare[8] == '8')
-			gridSquare[8] = mark;
+			board[2][1] = mark;
 
 		else if (choice == 9 && gridSquare[9] == '9')
-			gridSquare[9] = mark;
+			board[2][2] = mark;
 
 		else //error if move is invalid
 		{
@@ -248,7 +255,7 @@ int compChoice(int choice)
 		choice = 5;
 
 	//centre
-	else choice = 5;
+	else choice = rand() % 9;
 
 	return choice;
 }
@@ -418,16 +425,9 @@ Move findBestMove(char board[3][3])
 
 int compTicTacToe()
 {
-	int player = 1, i = 0, choice{}, choiceAI{ compChoice(choice) };
+	int player = 1, i = 0, choice, choiceAI;
 
 	char mark; //mark the player's position on the board
-
-	char board[3][3] =
-	{
-		{ gridSquare[1], gridSquare[2], gridSquare[3] },
-		{ gridSquare[4], gridSquare[5], gridSquare[6] },
-		{ gridSquare[7], gridSquare[8], gridSquare[9] }
-	};
 
 	do
 	{
@@ -444,6 +444,16 @@ int compTicTacToe()
 			choiceAI = compChoice(choice);
 
 			Move bestMove = findBestMove(board);
+
+			if (bestMove.column == 0 && bestMove.row == 0) choiceAI = 1;
+			else if (bestMove.column == 1 && bestMove.row == 0) choiceAI = 2;
+			else if (bestMove.column == 2 && bestMove.row == 0) choiceAI = 3;
+			else if (bestMove.column == 0 && bestMove.row == 1) choiceAI = 4;
+			else if (bestMove.column == 1 && bestMove.row == 1) choiceAI = 5;
+			else if (bestMove.column == 2 && bestMove.row == 1) choiceAI = 6;
+			else if (bestMove.column == 0 && bestMove.row == 2) choiceAI = 7;
+			else if (bestMove.column == 1 && bestMove.row == 2) choiceAI = 8;
+			else if (bestMove.column == 2 && bestMove.row == 2) choiceAI = 9;
 			
 			mark = 'O';
 
@@ -453,31 +463,31 @@ int compTicTacToe()
 			while (placed == 0)
 			{
 				if (choiceAI == 1 && gridSquare[1] == '1')
-					gridSquare[1] = mark, placed = 1;
+					board[0][0] = mark, placed = 1;
 
 				else if (choiceAI == 2 && gridSquare[2] == '2')
-					gridSquare[2] = mark, placed = 1;
+					board[0][1] = mark, placed = 1;
 
 				else if (choiceAI == 3 && gridSquare[3] == '3')
-					gridSquare[3] = mark, placed = 1;
+					board[0][2] = mark, placed = 1;
 
 				else if (choiceAI == 4 && gridSquare[4] == '4')
-					gridSquare[4] = mark, placed = 1;
+					board[1][0] = mark, placed = 1;
 
 				else if (choiceAI == 5 && gridSquare[5] == '5')
-					gridSquare[5] = mark, placed = 1;
+					board[1][1] = mark, placed = 1;
 
 				else if (choiceAI == 6 && gridSquare[6] == '6')
-					gridSquare[6] = mark, placed = 1;
+					board[1][2] = mark, placed = 1;
 
 				else if (choiceAI == 7 && gridSquare[7] == '7')
-					gridSquare[7] = mark, placed = 1;
+					board[2][0] = mark, placed = 1;
 
 				else if (choiceAI == 8 && gridSquare[8] == '8')
-					gridSquare[8] = mark, placed = 1;
+					board[2][1] = mark, placed = 1;
 
 				else if (choiceAI == 9 && gridSquare[9] == '9')
-					gridSquare[9] = mark, placed = 1;
+					board[2][2] = mark, placed = 1;
 
 			}
 
@@ -495,31 +505,31 @@ int compTicTacToe()
 			mark = 'X';
 
 			if (choice == 1 && gridSquare[1] == '1')
-				gridSquare[1] = mark;
+				board[0][0] = mark;
 
 			else if (choice == 2 && gridSquare[2] == '2')
-				gridSquare[2] = mark;
+				board[0][1] = mark;
 
 			else if (choice == 3 && gridSquare[3] == '3')
-				gridSquare[3] = mark;
+				board[0][2] = mark;
 
 			else if (choice == 4 && gridSquare[4] == '4')
-				gridSquare[4] = mark;
+				board[1][0] = mark;
 
 			else if (choice == 5 && gridSquare[5] == '5')
-				gridSquare[5] = mark;
+				board[1][1] = mark;
 
 			else if (choice == 6 && gridSquare[6] == '6')
-				gridSquare[6] = mark;
+				board[1][2] = mark;
 
 			else if (choice == 7 && gridSquare[7] == '7')
-				gridSquare[7] = mark;
+				board[2][0] = mark;
 
 			else if (choice == 8 && gridSquare[8] == '8')
-				gridSquare[8] = mark;
+				board[2][1] = mark;
 
 			else if (choice == 9 && gridSquare[9] == '9')
-				gridSquare[9] = mark;
+				board[2][2] = mark;
 
 			else //error if move is invalid
 			{
@@ -555,36 +565,36 @@ int checkWin()
 	//0 = Game is over w/ no result (draw)
 
 	//check horizontal wins
-	if (gridSquare[1] == gridSquare[2] && gridSquare[2] == gridSquare[3])
+	if (board[0][0] == board[0][1] && board[0][1] == board[0][2])
 		return 1;
 
-	else if (gridSquare[4] == gridSquare[5] && gridSquare[5] == gridSquare[6])
+	else if (board[1][0] == board[1][1] && board[1][1] == board[1][2])
 		return 1;
 
-	else if (gridSquare[7] == gridSquare[8] && gridSquare[8] == gridSquare[9])
+	else if (board[2][0] == board[2][1] && board[2][1] == board[2][2])
 		return 1;
 
 	//check vertical win
-	else if (gridSquare[1] == gridSquare[4] && gridSquare[4] == gridSquare[7])
+	else if (board[0][0] == board[1][0] && board[1][0] == board[2][0])
 		return 1;
 
-	else if (gridSquare[2] == gridSquare[5] && gridSquare[5] == gridSquare[8])
+	else if (board[0][1] == board[1][1] && board[1][1] == board[2][1])
 		return 1;
 
-	else if (gridSquare[3] == gridSquare[6] && gridSquare[6] == gridSquare[9])
+	else if (board[0][2] == board[1][2] && board[1][2] == board[2][2])
 		return 1;
 
 	//check diagonal win
-	else if (gridSquare[1] == gridSquare[5] && gridSquare[5] == gridSquare[9])
+	else if (board[0][0] == board[1][1] && board[1][1] == board[2][2])
 		return 1;
 
-	else if (gridSquare[3] == gridSquare[5] && gridSquare[5] == gridSquare[7])
+	else if (board[0][2] == board[1][1] && board[1][1] == board[2][0])
 		return 1;
 
 	//otherwise loss
-	else if (gridSquare[1] != '1' && gridSquare[2] != '2' && gridSquare[3] != '3'
-		&& gridSquare[4] != '4' && gridSquare[5] != '5' && gridSquare[6] != '6'
-		&& gridSquare[7] != '7' && gridSquare[8] != '8' && gridSquare[9] != '9')
+	else if (board[0][0] != '1' && board[0][1] != '2' && board[0][2] != '3'
+		&& board[1][0] != '4' && board[1][1] != '5' && board[1][2] != '6'
+		&& board[2][0] != '7' && board[2][1] != '8' && board[2][2] != '9')
 		return 0;
 
 	else
@@ -601,17 +611,17 @@ void boardGS() //draws the board
 
 	cout << "\t     |     |     " << endl;
 
-	cout << "\t  " << gridSquare[1] << "  |  " << gridSquare[2] << "  |  " << gridSquare[3] << endl;
+	cout << "\t  " << board[0][0] << "  |  " << board[0][1] << "  |  " << board[0][2] << endl;
 
 	cout << "\t_____|_____|_____" << endl;
 	cout << "\t     |     |     " << endl;
 
-	cout << "\t  " << gridSquare[4] << "  |  " << gridSquare[5] << "  |  " << gridSquare[6] << endl;
+	cout << "\t  " << board[1][0] << "  |  " << board[1][1] << "  |  " << board[1][2] << endl;
 
 	cout << "\t_____|_____|_____" << endl;
 	cout << "\t     |     |     " << endl;
 
-	cout << "\t  " << gridSquare[7] << "  |  " << gridSquare[8] << "  |  " << gridSquare[9] << endl;
+	cout << "\t  " << board[2][0] << "  |  " << board[2][1] << "  |  " << board[2][2] << endl;
 
 	cout << "\t     |     |     \n" << endl << endl;
 }
