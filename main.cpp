@@ -13,11 +13,10 @@ enum MenuChoice {
 };
 
 char gridSquare[10] = { 'o','1','2','3','4','5','6','7','8','9' }; //grid contents
-char mark;
 
 int displayMenu();
 int checkWin();
-void board();
+void boardGS();
 int playTicTacToe();
 int compTicTacToe();
 void displayQuit();
@@ -109,7 +108,7 @@ int playTicTacToe()
 
 	do
 	{
-		board();
+		boardGS();
 		player = (player % 2) ? 1 : 2; //swaps between players
 
 		cout << "    Player " << player << ", enter a number: ";
@@ -157,7 +156,7 @@ int playTicTacToe()
 		player++;
 	} while (i == -1);
 
-	board();
+	boardGS();
 
 	if (i == 1)
 		cout << "Congratulations! Player " << --player << " wins!";
@@ -199,7 +198,6 @@ int compChoice(int choice)
 
 	else if (gridSquare[7] == gridSquare[9])
 		choice = 8;
-
 
 	//vertical
 	else if (gridSquare[1] == gridSquare[4])
@@ -255,15 +253,185 @@ int compChoice(int choice)
 	return choice;
 }
 
+struct  Move
+{
+	int row, column;
+};
+
+char p1 = 'X', p2 = 'O';
+
+//are there any moves left on the board? returns false if no.
+bool areMovesLeft(char board[3][3])
+{
+	for (int i = 0; i < 3; i++)
+		for (int j = 0; j < 3; j++)
+			if (board[i][j] == '_')
+				return true;
+	return false;
+}
+
+//returns value based on who is winning
+int evaluateWinner(char eBoard[3][3])
+{
+	//check rows for x/o victory
+	for (int row = 0; row < 3; row++)
+	{
+		if (eBoard[row][0] == eBoard[row][1] && eBoard[row][1] == eBoard[row][2])
+		{
+			if (eBoard[row][0] == p1)
+				return +10;
+			else if (eBoard[row][0] == p2)
+				return -10;
+		}
+	}
+
+	//check columns for x/o victory
+	for (int column = 0; column < 3; column++)
+	{
+		if (eBoard[0][column] == eBoard[1][column] && eBoard[1][column] == eBoard[2][column])
+		{
+			if (eBoard[0][column] == p1)
+				return +10;
+			else if (eBoard[0][column == p2])
+				return -10;
+		}
+	}
+
+	//check diagonals for x/o victory
+	if (eBoard[0][0] == eBoard[1][1] && eBoard[1][1] == eBoard[2][2])
+	{
+		if (eBoard[0][0] == p1)
+			return +10;
+		else if (eBoard[0][0] == p2)
+			return -10;
+	}
+
+	if (eBoard[0][2] == eBoard[1][1] && eBoard[1][1] == eBoard[2][0])
+	{
+		if (eBoard[0][2] == p1)
+			return +10;
+		else if (eBoard[0][2] == p2)
+			return -10;
+	}
+
+	//if none have won, return 0
+	return 0;
+}
+
+//minimax function considers all ways the game can go and returns the board value
+int minimax(char board[3][3], int depth, bool isMax)
+{
+	int score = evaluateWinner(board);
+
+	//if player has won
+	if (score == 10) 
+		return score;
+
+	//if AI has won
+	if (score == -10)
+		return score;
+
+	//draw
+	if (areMovesLeft(board) == false)
+		return 0;
+
+	//if player's move
+	if (isMax)
+	{
+		int best = -1000;
+
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				if (board[i][j] == '_')
+				{
+					//make move
+					board[i][j] = p1;
+
+					best = max(best, minimax(board, depth + 1, !isMax));
+
+					//undo move
+					board[i][j] = '_';
+				}
+			}
+		}
+
+		return best;
+	}
+
+	//if AI's move
+	else
+	{
+		int best = 1000;
+
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				if (board[i][j] == '_')
+				{
+					board[i][j] = p2;
+
+					best = min(best, minimax(board, depth + 1, !isMax));
+
+					board[i][j] = '_';
+				}
+			}
+		}
+
+		return best;
+	}
+}
+
+Move findBestMove(char board[3][3])
+{
+	int bestVal = -1000;
+	Move bestMove;
+	bestMove.row = -1;
+	bestMove.column = -1;
+
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			if (board[i][j] == '_')
+			{
+				board[i][j] = p1;
+
+				int moveVal = minimax(board, 0, false);
+
+				board[i][j] = '_';
+
+				if (moveVal > bestVal)
+				{
+					bestMove.row = i;
+					bestMove.column = j;
+					bestVal = moveVal;
+				}
+			}
+		}
+	}
+
+	return bestMove;
+}
+
 int compTicTacToe()
 {
 	int player = 1, i = 0, choice{}, choiceAI{ compChoice(choice) };
 
 	char mark; //mark the player's position on the board
 
+	char board[3][3] =
+	{
+		{ gridSquare[1], gridSquare[2], gridSquare[3] },
+		{ gridSquare[4], gridSquare[5], gridSquare[6] },
+		{ gridSquare[7], gridSquare[8], gridSquare[9] }
+	};
+
 	do
 	{
-		board();
+		boardGS();
 
 		if (player % 2 == 1)
 			player = 1;
@@ -274,6 +442,8 @@ int compTicTacToe()
 			cout << "    It's Player " << player << "'s turn! Press enter to continue.";
 
 			choiceAI = compChoice(choice);
+
+			Move bestMove = findBestMove(board);
 			
 			mark = 'O';
 
@@ -283,73 +453,38 @@ int compTicTacToe()
 			while (placed == 0)
 			{
 				if (choiceAI == 1 && gridSquare[1] == '1')
-				{
-					if (gridSquare[1] == 'X' || gridSquare[1] == 'O')
-						choiceAI++, player--;
-					else gridSquare[1] = mark, placed = 1;
-				}
-					
+					gridSquare[1] = mark, placed = 1;
+
 				else if (choiceAI == 2 && gridSquare[2] == '2')
-				{
-					if (gridSquare[2] == 'X' || gridSquare[2] == 'O')
-						choiceAI++, player--;
-					else gridSquare[2] = mark, placed = 1;
-				}
+					gridSquare[2] = mark, placed = 1;
 
 				else if (choiceAI == 3 && gridSquare[3] == '3')
-				{
-					if (gridSquare[3] == 'X' || gridSquare[3] == 'O')
-						choiceAI++, player--;
-					else gridSquare[3] = mark, placed = 1;
-				}
+					gridSquare[3] = mark, placed = 1;
 
 				else if (choiceAI == 4 && gridSquare[4] == '4')
-				{
-					if (gridSquare[4] == 'X' || gridSquare[4] == 'O')
-						choiceAI++, player--;
-					else gridSquare[4] = mark, placed = 1;
-				}
+					gridSquare[4] = mark, placed = 1;
 
 				else if (choiceAI == 5 && gridSquare[5] == '5')
-				{
-					if (gridSquare[5] == 'X' || gridSquare[5] == 'O')
-						choiceAI++, player--;
-					else gridSquare[5] = mark, placed = 1;
-				}
+					gridSquare[5] = mark, placed = 1;
 
 				else if (choiceAI == 6 && gridSquare[6] == '6')
-				{
-					if (gridSquare[6] == 'X' || gridSquare[6] == 'O')
-						choiceAI++, player--;
-					else gridSquare[6] = mark, placed = 1;
-				}
+					gridSquare[6] = mark, placed = 1;
 
 				else if (choiceAI == 7 && gridSquare[7] == '7')
-				{
-					if (gridSquare[7] == 'X' || gridSquare[7] == 'O')
-						choiceAI++, player--;
-					else gridSquare[7] = mark, placed = 1;
-				}
+					gridSquare[7] = mark, placed = 1;
 
 				else if (choiceAI == 8 && gridSquare[8] == '8')
-				{
-					if (gridSquare[8] == 'X' || gridSquare[8] == 'O')
-						choiceAI++, player--;
-					else gridSquare[8] = mark, placed = 1;
-				}
+					gridSquare[8] = mark, placed = 1;
 
 				else if (choiceAI == 9 && gridSquare[9] == '9')
-				{
-					if (gridSquare[9] == 'X' || gridSquare[9] == 'O')
-						choiceAI--, player--;
-					else gridSquare[9] = mark, placed = 1;
-				}
+					gridSquare[9] = mark, placed = 1;
+
 			}
 
 			i = checkWin();
 			player++;
 
-			board();
+			boardGS();
 		}
 
 		else if (player == 1)
@@ -400,7 +535,7 @@ int compTicTacToe()
 		}
 	} while (i == -1);
 
-	board();
+	boardGS();
 
 	if (i == 1)
 		cout << "Congratulations! Player " << --player << " wins!";
@@ -456,7 +591,7 @@ int checkWin()
 		return -1;
 }
 
-void board() //draws the board
+void boardGS() //draws the board
 {
 	system("cls");
 
